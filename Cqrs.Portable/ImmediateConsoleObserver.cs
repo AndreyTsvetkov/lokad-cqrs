@@ -21,7 +21,7 @@ namespace Lokad.Cqrs
 
         public void OnError(Exception error)
         {
-            throw new NotImplementedException();
+            throw new NotSupportedException();
         }
 
         public void OnCompleted()

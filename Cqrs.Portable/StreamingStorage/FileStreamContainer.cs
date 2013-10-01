@@ -5,7 +5,6 @@
 
 #endregion
 
-using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
@@ -107,7 +106,7 @@ namespace Lokad.Cqrs.StreamingStorage
             catch (DirectoryNotFoundException e)
             {
                 var message = string.Format(CultureInfo.InvariantCulture, "Storage container was not found: '{0}'.",
-                    this.FullPath);
+                    FullPath);
                 throw new StreamContainerNotFoundException(message, e);
             }
         }
@@ -116,7 +115,7 @@ namespace Lokad.Cqrs.StreamingStorage
         {
             try
             {
-                return _root.GetFiles("*", SearchOption.AllDirectories).Select(f => new StreamItemDetail()
+                return _root.GetFiles("*", SearchOption.AllDirectories).Select(f => new StreamItemDetail
                     {
                         LastModifiedUtc = f.LastWriteTimeUtc,
                         Length = f.Length,
@@ -126,7 +125,7 @@ namespace Lokad.Cqrs.StreamingStorage
             catch (DirectoryNotFoundException e)
             {
                 var message = string.Format(CultureInfo.InvariantCulture, "Storage container was not found: '{0}'.",
-                    this.FullPath);
+                    FullPath);
                 throw new StreamContainerNotFoundException(message, e);
             }
         }

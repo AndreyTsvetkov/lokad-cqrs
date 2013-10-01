@@ -147,7 +147,7 @@ namespace Cqrs.Azure.Tests.AtomicStorage
 
     public sealed class DocumentStrategy : IDocumentStrategy
     {
-        private string _uniqName;
+        private readonly string _uniqName;
 
         public DocumentStrategy(string uniqName)
         {

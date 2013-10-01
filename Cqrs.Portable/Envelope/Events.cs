@@ -8,6 +8,7 @@
 using System;
 using System.Collections.Generic;
 
+// ReSharper disable CheckNamespace
 namespace Lokad.Cqrs.Envelope.Events
 {
     /// <summary>
@@ -28,7 +29,7 @@ namespace Lokad.Cqrs.Envelope.Events
 
         public override string ToString()
         {
-            return string.Format("Failed to deserialize in '{0}': '{1}'", Origin, Exception.ToString());
+            return string.Format("Failed to deserialize in '{0}': '{1}'", Origin, Exception);
         }
     }
 

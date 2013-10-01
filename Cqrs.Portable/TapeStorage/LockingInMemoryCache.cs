@@ -81,25 +81,23 @@ namespace Lokad.Cqrs.TapeStorage
 
             try
             {
-                var list = _cacheByKey.GetOrAdd(streamName, s => new DataWithKey[0]);
-                var actualStreamVersion = list.Length;
+                var currentStreamItems = _cacheByKey.GetOrAdd(streamName, s => new DataWithKey[0]);
+                var actualStreamVersion = currentStreamItems.Length;
 
-                if (expectedStreamVersion >= 0)
-                {
-                    if (actualStreamVersion != expectedStreamVersion)
-                        throw new AppendOnlyStoreConcurrencyException(expectedStreamVersion, actualStreamVersion, streamName);
-                }
-                long newStreamVersion = actualStreamVersion + 1;
+	            if (expectedStreamVersion >= 0)
+		            if (actualStreamVersion != expectedStreamVersion)
+			            throw new AppendOnlyStoreConcurrencyException(expectedStreamVersion, actualStreamVersion, streamName);
+
+	            long newStreamVersion = actualStreamVersion + 1;
                 long newStoreVersion = StoreVersion + 1;
 
                 commit(newStreamVersion, newStoreVersion);
 
                 // update in-memory cache only after real commit completed
-
                 
                 var dataWithKey = new DataWithKey(streamName, data, newStreamVersion, newStoreVersion);
                 _cacheFull = ImmutableAdd(_cacheFull, dataWithKey);
-                _cacheByKey.AddOrUpdate(streamName, s => new[] { dataWithKey }, (s, records) => ImmutableAdd(records, dataWithKey));
+                _cacheByKey.AddOrUpdate(streamName, s => new[] { dataWithKey }, (s, streamItems) => ImmutableAdd(streamItems, dataWithKey));
                 StoreVersion = newStoreVersion;
 
             }
@@ -125,7 +123,6 @@ namespace Lokad.Cqrs.TapeStorage
             var result = _cacheByKey.TryGetValue(streamName, out list) ? list : Enumerable.Empty<DataWithKey>();
 
             return result.Where(version => version.StreamVersion > afterStreamVersion).Take(maxCount);
-
         }
 
         public IEnumerable<DataWithKey> ReadAll(long afterStoreVersion, int maxCount)
@@ -135,7 +132,6 @@ namespace Lokad.Cqrs.TapeStorage
 
             if (maxCount <= 0)
                 throw new ArgumentOutOfRangeException("maxCount", "Must be more than zero.");
-
 
             // collection is immutable so we don't care about locks
             return _cacheFull.Where(key => key.StoreVersion > afterStoreVersion).Take(maxCount);

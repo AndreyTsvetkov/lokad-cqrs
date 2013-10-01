@@ -35,7 +35,6 @@ namespace Lokad.Cqrs.Build
             _disposables.Push(disposable);
         }
 
-
         public Task Start(CancellationToken token)
         {
             var tasks = _serverProcesses.Select(p => p.Start(token)).ToArray();

@@ -7,6 +7,7 @@
 
 using System;
 
+// ReSharper disable CheckNamespace
 namespace Lokad.Cqrs.Build.Events
 {
     [Serializable]

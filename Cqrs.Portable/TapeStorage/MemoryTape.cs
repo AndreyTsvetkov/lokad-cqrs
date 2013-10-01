@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Concurrent;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 
 namespace Lokad.Cqrs.TapeStorage
 {
@@ -9,7 +6,6 @@ namespace Lokad.Cqrs.TapeStorage
     {
         readonly LockingInMemoryCache _cache = new LockingInMemoryCache();
  
-
         public void InitializeForWriting()
         {
             

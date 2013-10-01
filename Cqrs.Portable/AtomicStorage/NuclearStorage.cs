@@ -6,8 +6,6 @@
 #endregion
 
 using System;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace Lokad.Cqrs.AtomicStorage
 {
@@ -20,9 +18,7 @@ namespace Lokad.Cqrs.AtomicStorage
     {
         public readonly IDocumentStore Container;
 
-        
-
-        public NuclearStorage(IDocumentStore container)
+		public NuclearStorage(IDocumentStore container)
         {
             Container = container;
         }

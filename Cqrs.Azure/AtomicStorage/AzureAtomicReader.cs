@@ -10,11 +10,12 @@ using Microsoft.WindowsAzure.StorageClient;
 
 namespace Lokad.Cqrs.AtomicStorage
 {
-    /// <summary>
-    /// Azure implementation of the view reader/writer
-    /// </summary>
-    /// <typeparam name="TEntity">The type of the view.</typeparam>
-    public sealed class AzureAtomicReader<TKey, TEntity> :
+	/// <summary>
+	/// Azure implementation of the view reader/writer
+	/// </summary>
+	/// <typeparam name="TEntity">The type of the view.</typeparam>
+	/// <typeparam name="TKey">The type of the key</typeparam>
+	public sealed class AzureAtomicReader<TKey, TEntity> :
         IDocumentReader<TKey, TEntity>
     {
         readonly CloudBlobDirectory _container;

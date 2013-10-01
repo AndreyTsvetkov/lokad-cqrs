@@ -81,7 +81,7 @@ namespace Lokad.Cqrs.AtomicStorage
                 // we are locking this file.
                 using (var file = File.Open(name, FileMode.OpenOrCreate, FileAccess.ReadWrite, FileShare.None))
                 {
-                    byte[] initial = new byte[0];
+                    var initial = new byte[0];
                     TEntity result;
                     if (file.Length == 0)
                     {
@@ -121,10 +121,7 @@ namespace Lokad.Cqrs.AtomicStorage
             }
             catch (DirectoryNotFoundException)
             {
-                var s = string.Format(
-                    "Container '{0}' does not exist.",
-                    _folder);
-                throw new InvalidOperationException(s);
+	            throw new InvalidOperationException(string.Format("Container '{0}' does not exist.", _folder));
             }
         }
 

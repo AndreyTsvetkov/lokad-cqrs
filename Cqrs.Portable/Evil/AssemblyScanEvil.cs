@@ -6,6 +6,7 @@
 #endregion
 
 using System;
+using System.Linq;
 using System.Reflection;
 
 namespace Lokad.Cqrs.Evil
@@ -35,13 +36,8 @@ namespace Lokad.Cqrs.Evil
                     "System", "Microsoft", "nunit", "JetBrains", "Autofac", "mscorlib", "ProtoBuf"
                 };
 
-            foreach (var prefix in prefixes)
-            {
-                if (assembly.FullName.StartsWith(prefix, StringComparison.InvariantCultureIgnoreCase))
-                    return false;
-            }
-
-            return true;
+	        return prefixes
+				.All(prefix => !assembly.FullName.StartsWith(prefix, StringComparison.InvariantCultureIgnoreCase));
         }
     }
 }

@@ -5,7 +5,6 @@
 
 #endregion
 
-using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,7 +13,7 @@ namespace Lokad.Cqrs.AtomicStorage
 {
     public sealed class MemoryDocumentStore : IDocumentStore
     {
-        ConcurrentDictionary<string, ConcurrentDictionary<string, byte[]>> _store;
+	    readonly ConcurrentDictionary<string, ConcurrentDictionary<string, byte[]>> _store;
         readonly IDocumentStrategy _strategy;
 
         public MemoryDocumentStore(ConcurrentDictionary<string, ConcurrentDictionary<string, byte[]>> store, IDocumentStrategy strategy)

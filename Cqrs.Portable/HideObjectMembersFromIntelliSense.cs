@@ -5,6 +5,10 @@
 
 #endregion
 
+// ReSharper disable NonReadonlyFieldInGetHashCode
+// ReSharper disable BaseObjectGetHashCodeCallInGetHashCode
+// ReSharper disable BaseObjectEqualsIsObjectEquals
+
 using System;
 using System.ComponentModel;
 
@@ -50,7 +54,7 @@ namespace Lokad.Cqrs
         /// <returns>
         /// A hash code for the current <see cref="T:System.Object"/>.
         /// </returns>
-        [EditorBrowsable(EditorBrowsableState.Never)]
+		[EditorBrowsable(EditorBrowsableState.Never)]
         public override int GetHashCode()
         {
             return base.GetHashCode();
@@ -65,13 +69,12 @@ namespace Lokad.Cqrs
         [EditorBrowsable(EditorBrowsableState.Never)]
         public new Type GetType()
         {
-            
             return base.GetType();
         }
         [EditorBrowsable(EditorBrowsableState.Never)]
         protected new object MemberwiseClone()
         {
-            return this.MemberwiseClone();
+            return base.MemberwiseClone();
         }
     }
 

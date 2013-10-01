@@ -25,10 +25,12 @@ namespace Cqrs.Azure.Tests.AtomicStorage
         public void Setup()
         {
             _name = Guid.NewGuid().ToString().ToLowerInvariant();
-            CloudStorageAccount cloudStorageAccount = ConnectionConfig.StorageAccount;
+			var documentStrategy = new DocumentStrategy(_name);
+            
+			CloudStorageAccount cloudStorageAccount = ConnectionConfig.StorageAccount;
             var cloudBlobClient = cloudStorageAccount.CreateCloudBlobClient();
-            var documentStrategy = new DocumentStrategy(_name);
-            _store = new AzureDocumentStore(documentStrategy, cloudBlobClient);
+                  
+			_store = new AzureDocumentStore(documentStrategy, cloudBlobClient);
 
             _container = cloudBlobClient.GetBlobDirectoryReference(_name).Container;
             _container.CreateIfNotExist();
@@ -40,8 +42,10 @@ namespace Cqrs.Azure.Tests.AtomicStorage
         [TearDown]
         public void Teardown()
         {
-            _container.Delete();
-            _sampleDocContainer.Delete();
+			_container.CreateIfNotExist();
+			_container.Delete();
+			_sampleDocContainer.CreateIfNotExist();
+			_sampleDocContainer.Delete();
         }
 
         [Test]
@@ -69,11 +73,11 @@ namespace Cqrs.Azure.Tests.AtomicStorage
             //WHEN
             var actualRecords = _store.EnumerateContents(_name).ToList();
             Assert.AreEqual(records.Count, actualRecords.Count);
-            for (int i = 0; i < records.Count; i++)
+            foreach (var record in records)
             {
-                Assert.AreEqual(true, actualRecords.Count(x => x.Key == records[i].Key) == 1);
-                Assert.AreEqual(Encoding.UTF8.GetString(records[i].Read()),
-                                Encoding.UTF8.GetString(actualRecords.First(x => x.Key == records[i].Key).Read()));
+				Assert.AreEqual(true, actualRecords.Count(x => x.Key == record.Key) == 1);
+				Assert.AreEqual(Encoding.UTF8.GetString(record.Read()),
+								Encoding.UTF8.GetString(actualRecords.First(x => x.Key == record.Key).Read()));
             }
         }
 

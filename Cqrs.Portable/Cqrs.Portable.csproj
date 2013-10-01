@@ -56,7 +56,7 @@
     <Compile Include="Build\CqrsEngineBuilder.cs" />
     <Compile Include="Build\CqrsEngineHost.cs" />
     <Compile Include="Build\Events.cs" />
-    <Compile Include="DataStreams\CsvStreams.cs" />
+    <Compile Include="StreamingStorage\CsvStreams.cs" />
     <Compile Include="Dispatch\DispatcherProcess.cs" />
     <Compile Include="Dispatch\Events.cs" />
     <Compile Include="Envelope\AbstractMessageSerializer.cs" />
@@ -98,11 +98,11 @@
     <Compile Include="Partition\StatelessFileQueueReader.cs" />
     <Compile Include="RedirectToCommand.cs" />
     <Compile Include="MessageSender.cs" />
-    <Compile Include="DataStreams\FileStreamContainer.cs" />
-    <Compile Include="DataStreams\IStreamContainer.cs" />
-    <Compile Include="DataStreams\IStreamRoot.cs" />
-    <Compile Include="DataStreams\Exceptions.cs" />
-    <Compile Include="DataStreams\BinaryStreams.cs" />
+    <Compile Include="StreamingStorage\FileStreamContainer.cs" />
+    <Compile Include="StreamingStorage\IStreamContainer.cs" />
+    <Compile Include="StreamingStorage\IStreamRoot.cs" />
+    <Compile Include="StreamingStorage\Exceptions.cs" />
+    <Compile Include="StreamingStorage\BinaryStreams.cs" />
     <Compile Include="StorageFramesEvil.cs" />
     <Compile Include="SystemObserver.cs" />
     <Compile Include="TapeStorage\FileAppendOnlyStore.cs" />

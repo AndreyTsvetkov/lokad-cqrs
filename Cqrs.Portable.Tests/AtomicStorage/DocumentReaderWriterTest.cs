@@ -42,12 +42,12 @@ namespace Cqrs.Portable.Tests.AtomicStorage
 
     public abstract class DocumentReaderWriterTest
     {
-        public IDocumentReader<Guid, int> _reader;
-        public IDocumentWriter<Guid, int> _writer;
-        public IDocumentReader<unit, Test1> _testClassReader;
-        public IDocumentWriter<unit, Test1> _testClassWtiter;
-        public IDocumentReader<Guid, Test1> _guidKeyClassReader;
-        public IDocumentWriter<Guid, Test1> _guidKeyClassWriter;
+        protected IDocumentReader<Guid, int> _reader;
+		protected IDocumentWriter<Guid, int> _writer;
+		protected IDocumentReader<unit, Test1> _testClassReader;
+		protected IDocumentWriter<unit, Test1> _testClassWtiter;
+		protected IDocumentReader<Guid, Test1> _guidKeyClassReader;
+		protected IDocumentWriter<Guid, Test1> _guidKeyClassWriter;
 
         [Test]
         public void get_not_created_entity()
@@ -156,7 +156,7 @@ namespace Cqrs.Portable.Tests.AtomicStorage
         [Test]
         public void when_not_found_key_get_new_view_and_not_call_action()
         {
-            Test1 t = new Test1 { Value = 555 };
+            var t = new Test1 { Value = 555 };
             var key = Guid.NewGuid();
             var newValue = _guidKeyClassWriter.AddOrUpdate(key, t, tv => { tv.Value += 1; });
 
@@ -167,7 +167,7 @@ namespace Cqrs.Portable.Tests.AtomicStorage
         [Test]
         public void when_key_exist_call_action_and_get_new_value()
         {
-            Test1 t = new Test1 { Value = 555 };
+            var t = new Test1 { Value = 555 };
             var key = Guid.NewGuid();
             _guidKeyClassWriter.AddOrUpdate(key, t, tv => { tv.Value += 1; });
             var newValue = _guidKeyClassWriter.AddOrUpdate(key, t, tv => { tv.Value += 1; });
@@ -179,7 +179,7 @@ namespace Cqrs.Portable.Tests.AtomicStorage
         [Test]
         public void when_not_found_key_get_new_view_func_and_not_call_action()
         {
-            Test1 t = new Test1 { Value = 555 };
+            var t = new Test1 { Value = 555 };
             var key = Guid.NewGuid();
             var newValue = _guidKeyClassWriter.AddOrUpdate(key, () => t, tv => { tv.Value += 1; });
 
@@ -190,7 +190,7 @@ namespace Cqrs.Portable.Tests.AtomicStorage
         [Test]
         public void when_key_exist_not_call_new_view_func_and_call_action_and_get_new_value()
         {
-            Test1 t = new Test1 { Value = 555 };
+            var t = new Test1 { Value = 555 };
             var key = Guid.NewGuid();
             _guidKeyClassWriter.AddOrUpdate(key, t, tv => { tv.Value += 1; });
             var newValue = _guidKeyClassWriter.AddOrUpdate(key, () => t, tv => { tv.Value += 1; });
@@ -202,7 +202,7 @@ namespace Cqrs.Portable.Tests.AtomicStorage
         [Test]
         public void add_new_value()
         {
-            Test1 t = new Test1 { Value = 555 };
+            var t = new Test1 { Value = 555 };
             var newValue = _guidKeyClassWriter.Add(Guid.NewGuid(), t);
 
             Assert.AreEqual(t, newValue);
@@ -212,7 +212,7 @@ namespace Cqrs.Portable.Tests.AtomicStorage
         [Test, ExpectedException(typeof(InvalidOperationException))]
         public void add_value_when_key_exist()
         {
-            Test1 t = new Test1 { Value = 555 };
+            var t = new Test1 { Value = 555 };
             var key = Guid.NewGuid();
             _guidKeyClassWriter.Add(key, t);
             _guidKeyClassWriter.Add(key, t);
@@ -231,7 +231,7 @@ namespace Cqrs.Portable.Tests.AtomicStorage
         [Test]
         public void update_value_with_func_when_key_exist()
         {
-            Test1 t = new Test1 { Value = 555 };
+            var t = new Test1 { Value = 555 };
             var key = Guid.NewGuid();
             _guidKeyClassWriter.Add(key, t);
             var newValue = _guidKeyClassWriter.UpdateOrThrow(key, tv =>
@@ -256,7 +256,7 @@ namespace Cqrs.Portable.Tests.AtomicStorage
         [Test]
         public void update_value_with_action_when_key_exist()
         {
-            Test1 t = new Test1 { Value = 555 };
+            var t = new Test1 { Value = 555 };
             var key = Guid.NewGuid();
             _guidKeyClassWriter.Add(key, t);
             var newValue = _guidKeyClassWriter.UpdateOrThrow(key, tv =>
@@ -274,7 +274,7 @@ namespace Cqrs.Portable.Tests.AtomicStorage
             var key = Guid.NewGuid();
             var newValue = _guidKeyClassWriter.UpdateEnforcingNew(key, tv => { tv.Value += 1; });
 
-            var defaultValue = default(int);
+            const int defaultValue = default(int);
             Assert.AreEqual(defaultValue + 1, newValue.Value);
         }
     }

@@ -44,7 +44,7 @@ namespace Lokad.Cqrs.AtomicStorage
             string etag = null;
             var blob = GetBlobReference(key);
             TEntity view;
-            byte[] bytes = new byte[0];
+            var bytes = new byte[0];
             try
             {
                 // atomic entities should be small, so we can use the simple method
